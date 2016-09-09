@@ -7,17 +7,44 @@ var storedValues = result.blockedUserNames;
 for (var i = 0, l = posts.length; i < l; i++) {
   var username = posts[i].innerHTML;
   for (var j = 0, ll = storedValues.length; j < ll; j++) {
-  if(username == storedValues[j]){
-	 var elementToHide = findAncestor(posts[i], 'comment');
-	 if(elementToHide != null){
-	 elementToHide.style.display = 'none';
-	 }
-	 }
+	if(username == storedValues[j]){
+		var commentToHide = findAncestor(posts[i], 'comment');
+		if(commentToHide != null){
+			commentToHide.style.display = 'none';
+		}
+		if(posts[i].parentElement.classList.contains('created')){
+			var evenThreadsToHide = findAncestor(posts[i], 'even');
+			if(evenThreadsToHide != null){
+				evenThreadsToHide.style.display = 'none';
+			}
+			var oddThreadsToHide = findAncestor(posts[i], 'odd');
+			if(oddThreadsToHide != null){
+				oddThreadsToHide.style.display = 'none';
+			}
+		}
+	 } 
   }
+}
+var t=document.getElementsByTagName('table')[0];
+if(t != null){
+	FixAlternatingRowStyling(t);
 }
 });
 }
 
+function FixAlternatingRowStyling(table){
+	var even = false;
+	for(var i=0,r;r=table.rows[i];i++){
+		if(r.style.display != 'none'){
+			if(even == true){
+				r.className = 'even';
+			}else{
+				r.className = 'odd';
+			}
+			even = !even;
+		}
+	}	
+}
 chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
    if (msg.action == 'refresh') {
       //alert("Message recieved!");
@@ -46,32 +73,3 @@ tag[ (typeof document.body.style.WebkitAppearance=='string') /* webkit only */ ?
 } 
 }
 )();
-
-(function (){ 
-	var t=document.getElementsByTagName('table')[0];
-	if(t == null) { return; }
-
-	chrome.storage.sync.get('blockedUserNames', function(result){
-		var storedValues = result.blockedUserNames;
-
-		for(var i=0,r;r=t.rows[i];i++){
-			for(var j=0,c;c=r.cells[j];j++){
-				for (var v = 0, ll = storedValues.length; v < ll; v++) {
-					if(c.innerHTML.indexOf(storedValues[v])!=-1){r.style.display='none';}
-				}
-			}
-		}
-		var even = false;
-		for(var i=0,r;r=t.rows[i];i++){
-			if(r.style.display != 'none'){
-				if(even == true){
-					r.className = 'even';
-				}else{
-					r.className = 'odd';
-				}
-				even = !even;
-			}
-		}
-		
-	});
-})();
