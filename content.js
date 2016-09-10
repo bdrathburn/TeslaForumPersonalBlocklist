@@ -73,3 +73,47 @@ tag[ (typeof document.body.style.WebkitAppearance=='string') /* webkit only */ ?
 } 
 }
 )();
+
+(
+function ()
+{
+var searchElement = document.createElement('gcse:search'); 
+var threadSearchElement = document.getElementsByClassName('right-column panel-panel sidebar');
+if(threadSearchElement.length > 0){
+threadSearchElement[0].appendChild(searchElement);
+}
+var mainSearchElement = document.getElementById('second-header');
+if(mainSearchElement != null){
+	if(mainSearchElement.firstElementChild.firstElementChild.className == "grid-6"){
+		var mainSearchElementChild = mainSearchElement.firstElementChild.firstElementChild;
+		var rightAlignedContainer = document.createElement('div');
+		rightAlignedContainer.style.width = "300px";
+		rightAlignedContainer.style.float = "right";
+		rightAlignedContainer.appendChild(searchElement);
+		mainSearchElementChild.appendChild(rightAlignedContainer);
+	}
+}
+
+InitializeSearch();
+
+}
+)();
+
+
+function InitializeSearch() {
+    var cx = '003127763848949150573:j-nc4htca_e';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+	gcse.addEventListener('load', ReStyleButton(), false);
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  }
+  
+  function ReStyleButton(){
+	var searchElements = document.getElementsByClassName('gsc-search-button gsc-search-button-v2');
+	if(searchElements.length > 0){
+		searchElements[0].attr("type", "submit").attr("value", "submit");
+	}
+  }
