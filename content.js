@@ -112,8 +112,12 @@ function InitializeSearch() {
   }
   
   function ReStyleButton(){
+	setTimeout(DoReStyleButton, 1000);
+  }
+
+  function DoReStyleButton(){
 	var searchElements = document.getElementsByClassName('gsc-search-button gsc-search-button-v2');
 	if(searchElements.length > 0){
-		searchElements[0].attr("type", "submit").attr("value", "submit");
+		searchElements[0].style.display = 'none';
 	}
   }
