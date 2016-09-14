@@ -4,6 +4,7 @@ function hidePosts(){
 var posts = document.getElementsByClassName('username');
 chrome.storage.sync.get('blockedUserNames', function(result){
 var storedValues = result.blockedUserNames;
+if(storedValues != null){
 for (var i = 0, l = posts.length; i < l; i++) {
   var username = posts[i].innerHTML;
   for (var j = 0, ll = storedValues.length; j < ll; j++) {
@@ -28,6 +29,7 @@ for (var i = 0, l = posts.length; i < l; i++) {
 var t=document.getElementsByTagName('table')[0];
 if(t != null){
 	FixAlternatingRowStyling(t);
+}
 }
 });
 }
@@ -74,50 +76,50 @@ tag[ (typeof document.body.style.WebkitAppearance=='string') /* webkit only */ ?
 }
 )();
 
-(
-function ()
-{
-var searchElement = document.createElement('gcse:search'); 
-var threadSearchElement = document.getElementsByClassName('right-column panel-panel sidebar');
-if(threadSearchElement.length > 0){
-threadSearchElement[0].appendChild(searchElement);
-}
-var mainSearchElement = document.getElementById('second-header');
-if(mainSearchElement != null){
-	if(mainSearchElement.firstElementChild.firstElementChild.className == "grid-6"){
-		var mainSearchElementChild = mainSearchElement.firstElementChild.firstElementChild;
-		var rightAlignedContainer = document.createElement('div');
-		rightAlignedContainer.style.width = "300px";
-		rightAlignedContainer.style.float = "right";
-		rightAlignedContainer.appendChild(searchElement);
-		mainSearchElementChild.appendChild(rightAlignedContainer);
-	}
-}
 
-InitializeSearch();
+(function (){
+// added JeffreyR v.1.0.3
+// closure function to add simple Google Search
+    var Google_Search   = document.createElement('div');
+    var gs  =   '<form accept-charset="utf-8" target="_search" action="https://www.google.com/search">';
+        gs  +=  '<input name="as_sitesearch" type="hidden" value="tesla.com/forum/forums">';
+        gs  +=  '<input name="as_q" type="text" value="" placeholder="Enter text to find" style="width: auto; margin-top: 0.2em; margin-bottom: 0.3em; margin-left: 2px;">';
+        gs  +=  '<input type="submit" value="Search" class="btn-primary" title="Google Custom Site Search for tesla.com Forums">';
+        gs  +=  '</form>';
 
-}
-)();
+    Google_Search.innerHTML = gs;
+    Google_Search.style.float   = "right";
+
+    var OP_Right = document.getElementById('second_header');
+    if(OP_Right != null) { 
+        OP_Right.firstElementChild.appendChild(Google_Search);
+    }
+
+    var Posts_Right = document.getElementById('second-header');
+    if(Posts_Right != null) {
+        if(Posts_Right.firstElementChild.firstElementChild.className == "grid-6") {
+            Google_Search.style.width   = "300px;";
+            Posts_Right.firstElementChild.firstElementChild.appendChild(Google_Search);
+        }
+    }
+})();
+
+  (function (){
+// added JeffreyR v.1.0.3
+// closure function to add 1st Comment and Make a Comment links to the "Submitted by" section at the top of an OP
+    var Sub_By_Div  = document.getElementsByClassName("submitted")[0];
+    if(Sub_By_Div == null) { return; }
+
+    var Start_Comments_Div  = document.getElementsByClassName("panel-pane pane-node-content")[0];
+    if(Start_Comments_Div == null) { return; }
+    var Target_Comments = document.createElement('a');
+    Target_Comments.id  = "comments-start";
+    Start_Comments_Div.appendChild(Target_Comments);
 
 
-function InitializeSearch() {
-    var cx = '003127763848949150573:j-nc4htca_e';
-    var gcse = document.createElement('script');
-    gcse.type = 'text/javascript';
-    gcse.async = true;
-    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
-	gcse.addEventListener('load', ReStyleButton(), false);
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(gcse, s);
-  }
-  
-  function ReStyleButton(){
-	setTimeout(DoReStyleButton, 1000);
-  }
+    var Comment_Anchors = document.createElement('em');
+    Comment_Anchors.style.textAlign = "right";
+    Comment_Anchors.innerHTML   = ' ' + '(<a href="#comments-start">1st Comment</a> | <a href="#comment-form">Make a Comment</a>)';
 
-  function DoReStyleButton(){
-	var searchElements = document.getElementsByClassName('gsc-search-button gsc-search-button-v2');
-	if(searchElements.length > 0){
-		searchElements[0].style.display = 'none';
-	}
-  }
+    Sub_By_Div.appendChild(Comment_Anchors);
+})();

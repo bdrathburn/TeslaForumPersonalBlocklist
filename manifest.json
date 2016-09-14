@@ -1,8 +1,8 @@
 {
   "manifest_version": 2, 
-  "name": "Tesla Forum Personal Blocklist",
-  "version": "1.0.2",
-  "description": "Chrome extension for hiding posts from specified users.",
+  "name": "Tesla Forum Enhancement Suite",
+  "version": "1.0.3",
+  "description": "Browser extension for enhancing the Tesla Forum.",
   "permissions": ["contextMenus","storage"],		
   "options_page": "options.html",
   "content_scripts": [{
