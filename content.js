@@ -121,5 +121,10 @@ tag[ (typeof document.body.style.WebkitAppearance=='string') /* webkit only */ ?
     Comment_Anchors.style.textAlign = "right";
     Comment_Anchors.innerHTML   = ' ' + '(<a href="#comments-start">1st Comment</a> | <a href="#comment-form">Make a Comment</a>)';
 
+	var LastLink = document.getElementsByClassName('pager-last last');
+	if(LastLink != null && LastLink.length > 0){
+		var href = LastLink[0].childNodes[0].href;		
+		Comment_Anchors.innerHTML   = ' ' + '(<a href="#comments-start">1st Comment</a> | <a href="#comment-form">Make a Comment</a> | <a href="' + href + '#comment-form">Last Comment</a>)';
+	}
     Sub_By_Div.appendChild(Comment_Anchors);
 })();
